@@ -45,7 +45,6 @@ namespace Atata.Bootstrap.Tests
         {
             Go.To<TabsPage>().
                 Pane1.TextInput.Set("abc").
-                Pane1.TextInput.Set("def").
                 Pane2.Header.Should.Equal("Menu 2").
                 Pane2.CheckBox.Check().
                 Pane3.Text.Should.Contain("Eaque ipsa").

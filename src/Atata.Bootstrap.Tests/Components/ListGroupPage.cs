@@ -2,50 +2,58 @@
 {
     using _ = ListGroupPage;
 
-    [Url("ListGroups.html")]
+    [Url("ListGroup.html")]
     public class ListGroupPage : Page<_>
     {
-        public H1<_> Header { get; set; }
+        public ControlList<BSListGroup<_>, _> AllListGroups { get; private set; }
 
-        public OrderedList<BadgesListItems, _> BadgesListItemsInOL { get; set; }
+        public ControlList<BSListGroupItem<_>, _> AllListGroupItems { get; private set; }
 
-        public ControlList<BSListGroupItem<_>, _> ListGroupItems { get; private set; }
-        public ControlList<BSListGroup<ListItem<_>, _>, _> ListGroups { get; private set; }
+        [FindById]
+        public BSListGroup<_> RegularGroup { get; private set; }
 
-        [FindByAttribute("href", new string[] { "#" })]
-        public BSListGroupItem<_> ListGroupItemWithHref { get; private set; }
+        [FindById]
+        public BSListGroup<BadgeListGroupItem, _> BadgeGroup { get; private set; }
 
-        [FindByClass("list-group-item active")]
-        public BSListGroupItem<_> ListGroupItemWithActive { get; private set; }
+        [FindById]
+        public BSListGroup<_> LinkGroup { get; private set; }
 
-        [FindByXPath("div[@class='panel-group']/div[@class='panel panel-default'][7]/div[@class='list-group'][1]/a[@class='list-group-item active']/h4[@class='list-group-item-heading']")]
-        public H4<_> ListGroupItem2ndWithActive { get; private set; }
+        [FindById]
+        public BSListGroup<_> ButtonGroup { get; private set; }
 
-        [FindByXPath("div[@class='list-group']/a[@class='list-group-item disabled']")]
-        public BSListGroupItem<_> IsDisabledItem { get; set; }
+        [FindById]
+        public BSListGroup<CustomContentListGroupItem, _> CustomContentGroup { get; private set; }
 
-        [FindByXPath("div[@class='panel-group']/div[@class='panel panel-default'][7]/div[@class='list-group'][1]/a[@class='list-group-item active']")]
-        public BSListGroupItem<_> IsActiveItem { get; set; }
+        [FindById("custom-content-group")]
+        public CustomListGroup CustomGroup { get; private set; }
 
-        public class BadgesListItems : ListItem<_>
+        public class BadgeListGroupItem : BSListGroupItem<_>
         {
-            [FindByClass("badge")]
-            public Number<_> Number { get; set; }
+            [FindByClass(BSClass.Badge)]
+            public Number<_> Number { get; private set; }
 
-            public Text<_> InnerContent { get; set; }
+            [UseParentScope]
+            public Text<_> Text { get; private set; }
         }
 
-        public class UnOrderedListItem : Control<_>
+        public class CustomContentListGroupItem : BSListGroupItem<_>
         {
-            public H5<_> Header { get; private set; }
+            public H4<_> Heading { get; private set; }
+
+            [FindByXPath("p")]
+            public Text<_> Text { get; private set; }
         }
 
-        public class BSListGroupItem : Control<_>
+        public class CustomListGroup : BSListGroup<CustomContentListGroupItem, _>
         {
-        }
+            [FindByIndex(0)]
+            public CustomContentListGroupItem Item1 { get; private set; }
 
-        public class BSListGroup : Control<_>
-        {
+            [FindByIndex(1)]
+            public CustomContentListGroupItem Item2 { get; private set; }
+
+            [FindByIndex(2)]
+            public CustomContentListGroupItem Item3 { get; private set; }
         }
     }
 }
